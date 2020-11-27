@@ -586,15 +586,15 @@ apply_security_settings()
       local ESCAPED_USER_ADMIN_PWD=$(escape_pwd $USER_ADMIN_PWD)
       local ADMIN_JSON=$(printf '{"password":"%s"}\n' $ESCAPED_USER_ADMIN_PWD)
       echo $ADMIN_JSON | curl_ignore_409 -XPUT -u "elastic:$SEED_PASSWORD" "$XPACK_USER_ENDPOINT/elastic/_password" -d @-
-      if [[ $? != 0 ]]; then
+      #if [[ $? != 0 ]]; then
         #Make sure another deploy did not already change the elastic password
-        curl_ignore_409 -XGET -u "elastic:$USER_ADMIN_PWD" "$PROTOCOL://localhost:9200/"
-        if [[ $? != 0 ]]; then
-          log "[apply_security_settings] could not update the built-in elastic user"
-          exit 10
-        fi
-      fi
-      log "[apply_security_settings] updated built-in elastic superuser password"
+        #curl_ignore_409 -XGET -u "elastic:$USER_ADMIN_PWD" "$PROTOCOL://localhost:9200/"
+        #if [[ $? != 0 ]]; then
+          #log "[apply_security_settings] could not update the built-in elastic user"
+          #exit 10
+        #fi
+      #fi
+      #log "[apply_security_settings] updated built-in elastic superuser password"
 
       wait_for_green_security_index
       if [[ $? != 0 ]]; then
